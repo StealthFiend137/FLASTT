@@ -57,6 +57,7 @@ target_include_directories(FLASTT PRIVATE
 # Add any user requested libraries
 target_link_libraries(FLASTT 
         hardware_i2c
+        hardware_pwm
         )
 
 pico_add_extra_outputs(FLASTT)
