@@ -42,3 +42,37 @@ Ommitted from the following lists is the physcical design of the servo, or rathe
 
 ## Gearbox Modification
 
+## AS5600 Modification
+
+As we're trying to use a single connector to provide power to motor and communicate with the AS5600 sensor, We're going to connect some of the pins together on the AS5600 that aren't usually connected.
+
+```
+            AS5600 Breakout
+          ┌────────────────┐
+          │ O            O │ ● DIR
+    VCC ● │   ┌────────┐   │ ● SCL
+    OUT ● │   │ AS5600 │   │ ● SDA
+    GND ● │   └────────┘   │ ● GPO
+          │ O            O │ 
+          └────────────────┘
+```
+
+The following pairs of pins need to be jumped together.  I've used some enameled coppper wire routed underneath the the chip.
+
+| Actual Pin | Donor Pin | Why this works |
+| --- | --- | --- |
+| VCC | GPO | The GPO pin is pulled down to program, so we pull it up. |
+| GND | DIR | Provides ground, and also pulls the direction pin down with no ill effects. |
+
+```
+            AS5600 Breakout
+          ┌────────────────┐
+          │ O            O │ ● DIR/GND
+GPO/VCC ● │   ┌────────┐   │ ● SCL
+    OUT ● │   │ AS5600 │   │ ● SDA
+DIR/GND ● │   └────────┘   │ ● GPO/VCC
+          │ O            O │ 
+          └────────────────┘
+```
+
+This gives us 4 holes on one side that we can use for power and data.
